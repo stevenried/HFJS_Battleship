@@ -1,4 +1,4 @@
-var view = {
+var view = { //view object updates screen as required
   displayMessage: function (msg) {
     var messageArea = document.getElementById("message-area");
     messageArea.innerHTML = msg;
@@ -15,7 +15,7 @@ var view = {
   },
 };
 
-var model = {
+var model = { //handles the logic of the game
   boardSize: 7,
   numShips: 3,
   shipLength: 3,
@@ -35,7 +35,7 @@ var model = {
         ship.hits[index] = "hit";
         view.displayHit(guess);
         view.displayMessage("HIT!");
-        if (this.isSunk(ship)) {
+        if (this.isSunk(ship)) {  //check to see if ship is sunk
           view.displayMessage("You sank my battleship!");
           this.shipsSunk++;
         }
@@ -55,7 +55,7 @@ var model = {
     }
     return true;
   },
-
+        //mount ships to board locations after verifying its cells are not already taken by other ships
   generateShipLocations: function () {
     var locations;
     for (var i = 0; i < this.numShips; i++) {
@@ -67,29 +67,34 @@ var model = {
   },
 
   generateShip: function () {
+      //randomly set direction of ship mount
     var direction = Math.floor(Math.random() * 2);
     var row;
     var col;
 
     if (direction === 1) {
+        //set origin for horizontal mount
       row = Math.floor(Math.random() * this.boardSize);
-      col = Math.floor(Math.random() * (this.boardSize - 3) + 1);
+      col = Math.floor(Math.random() * ((this.boardSize - 3) + 1));
     } else {
-      row = Math.floor(Math.random() * (this.boardSize - 3) + 1);
+        //set origin for vertical mount
+      row = Math.floor(Math.random() * ((this.boardSize - 3) + 1));
       col = Math.floor(Math.random() * this.boardSize);
     }
 
     var newShipLocations = [];
     for (var i = 0; i < this.shipLength; i++) {
       if (direction === 1) {
+          //locations for horizontal mount
         newShipLocations.push(row + "" + (col + i));
       } else {
+          //locations for vertical mount
         newShipLocations.push(row + i + "" + col);
       }
     }
     return newShipLocations;
   },
-
+        //Prevent two or more ships from occupying the same cell
   collision: function (locations) {
     for (var i = 0; i < this.numShips; i++) {
       var ship = this.ships[i];
@@ -152,6 +157,7 @@ function init() {
   guessInput.onkeypress = handleKeyPres;
 
   model.generateShipLocations();
+  view.displayMessage("Ready for battle? Enter co-ordinates and press fire button to begin your attack!");
 }
 
 function handleFireButton() {
