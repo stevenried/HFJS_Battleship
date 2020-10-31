@@ -7,7 +7,7 @@ body {
     width: 1024px;
     height: 863px;
     margin: auto;
-    background: url(/assets/board.jpg) no-repeat;
+    background: url(../assets/board.jpg) no-repeat;
 }
 
 #message-area {
